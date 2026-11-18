@@ -36,7 +36,7 @@ st.markdown("""
             margin: 0 !important;
             padding: 0 !important;
             display: block !important;
-            z-index: 9999 !important;
+            z-index: 999999 !important;
         }
     </style>
 """, unsafe_allow_html=True)

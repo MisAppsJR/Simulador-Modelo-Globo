@@ -28,7 +28,7 @@ def obtener_html_simulador():
 
   @media (max-width: 980px), (max-height: 540px) {
     body { padding: 4px 6px; gap: 4px; }
-    .top-bar { padding: 4px 6px; gap: 4px; flex-wrap: wrap; justify-content: center; }
+    .top-bar { padding: 3px 6px; gap: 4px; flex-wrap: wrap; justify-content: center; }
     .title { font-size: 12px; }
     .clock-box { padding: 2px 6px; gap: 4px; }
     .clock { font-size: 13px; }
@@ -346,7 +346,7 @@ function renderUniverse(ctx, w, h, scalePx, offX, offY, isZoom) {
   ctx.lineWidth = 1.2; ctx.strokeStyle = 'rgba(125, 211, 252, 0.24)'; ctx.stroke();
 
   ctx.beginPath(); ctx.arc(0, 0, 1.0 * scalePx, 0, Math.PI*2);
-  ctx.setLineDash([5, 5]); ctx.strokeStyle = 'rgba(148, 163, 184, 0.28)'; ctx.lineWidth = 1; ctx.stroke(); ctx.setLineDash([]);
+  ctx.setLineDash([4, 4]); ctx.strokeStyle = 'rgba(148, 163, 184, 0.28)'; ctx.lineWidth = 1; ctx.stroke(); ctx.setLineDash([]);
 
   focosGas.forEach(f => {
     let fx = f.x * R * scalePx, fy = f.y * R * scalePx;
