@@ -346,7 +346,7 @@ function renderUniverse(ctx, w, h, scalePx, offX, offY, isZoom) {
   ctx.lineWidth = 1.2; ctx.strokeStyle = 'rgba(125, 211, 252, 0.24)'; ctx.stroke();
 
   ctx.beginPath(); ctx.arc(0, 0, 1.0 * scalePx, 0, Math.PI*2);
-  ctx.setLineDash([4, 4]); ctx.strokeStyle = 'rgba(148, 163, 184, 0.28)'; ctx.lineWidth = 1; ctx.stroke(); ctx.setLineDash([]);
+  ctx.setLineDash([5, 5]); ctx.strokeStyle = 'rgba(148, 163, 184, 0.28)'; ctx.lineWidth = 1; ctx.stroke(); ctx.setLineDash([]);
 
   focosGas.forEach(f => {
     let fx = f.x * R * scalePx, fy = f.y * R * scalePx;
