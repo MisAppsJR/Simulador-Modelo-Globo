@@ -3,7 +3,6 @@ def obtener_html_simulador():
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; color: #e2e8f0; }
@@ -11,36 +10,42 @@ def obtener_html_simulador():
   body { display: flex; flex-direction: column; padding: 6px 10px; gap: 8px; }
   .top-bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px; background: #111827; padding: 6px 12px; border-radius: 8px; border: 1px solid #1f2937; flex-shrink: 0; }
   .title { font-size: 16px; font-weight: 600; color: #38bdf8; white-space: nowrap; }
-  .clock-box { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; background: #060911; padding: 4px 10px; border-radius: 6px; border: 1px solid #374151; }
+  .clock-box { display: flex; align-items: center; gap: 6px; background: #060911; padding: 4px 10px; border-radius: 6px; border: 1px solid #374151; }
   .clock { font-family: 'Consolas', monospace; font-size: 19px; font-weight: bold; color: #34d399; letter-spacing: 1px; margin-right: 2px; }
   select { background: #1f2937; color: #f8fafc; border: 1px solid #4b5563; padding: 3px 6px; border-radius: 6px; font-size: 12px; cursor: pointer; outline: none; }
-  .controls { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; }
+  .controls { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
   button { background: #1f2937; border: 1px solid #4b5563; color: #f8fafc; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 500; }
   button:hover { background: #38bdf8; color: #060911; font-weight: 600; }
   .mini-btn { padding: 2px 7px; font-size: 12px; font-weight: bold; }
   .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex: 1; min-height: 0; }
   .panel { position: relative; background: #03050a; border: 1px solid #1f2937; border-radius: 10px; overflow: hidden; min-height: 0; }
-  .panel-header { position: absolute; top: 8px; left: 10px; right: 10px; display: flex; justify-content: space-between; align-items: center; pointer-events: none; z-index: 10; gap: 4px; }
+  .panel-header { position: absolute; top: 8px; left: 8px; right: 8px; display: flex; justify-content: space-between; align-items: flex-start; gap: 6px; pointer-events: none; z-index: 10; }
   .panel-title { font-size: 12px; background: rgba(15, 23, 42, 0.88); padding: 4px 8px; border-radius: 6px; border: 1px solid #334155; display: flex; flex-wrap: wrap; align-items: center; gap: 5px; }
   .zoom-btns { pointer-events: auto; display: flex; gap: 4px; flex-shrink: 0; }
-  .zoom-btns button { padding: 3px 8px; font-size: 13px; font-weight: bold; background: rgba(15, 23, 42, 0.92); }
-  .legend-bar { position: absolute; bottom: 6px; left: 8px; right: 8px; background: rgba(15, 23, 42, 0.85); border: 1px solid #334155; border-radius: 6px; padding: 3px 8px; font-size: 11px; display: flex; flex-wrap: wrap; gap: 8px; pointer-events: none; width: fit-content; max-width: calc(100% - 16px); }
+  .zoom-btns button { padding: 4px 8px; font-size: 12px; font-weight: bold; background: rgba(15, 23, 42, 0.92); }
+  .legend-box { position: absolute; bottom: 6px; left: 8px; right: 8px; background: rgba(15, 23, 42, 0.84); border: 1px solid #334155; border-radius: 6px; padding: 3px 8px; font-size: 11px; display: flex; flex-wrap: wrap; gap: 8px; pointer-events: none; }
   canvas { width: 100%; height: 100%; display: block; cursor: crosshair; touch-action: none; }
 
   @media (max-width: 960px) {
-    body { padding: 4px 6px; gap: 5px; }
+    body { padding: 4px 6px; gap: 4px; }
     .top-bar { padding: 4px 8px; gap: 4px; }
     .title { font-size: 13px; }
-    .clock { font-size: 14px; }
     .clock-box { padding: 2px 6px; gap: 4px; }
-    select, button { font-size: 11px; padding: 3px 6px; }
-    .panel-title { font-size: 11px; padding: 3px 6px; }
-    .legend-bar { font-size: 10px; gap: 6px; padding: 2px 6px; }
+    .clock { font-size: 14px; }
+    select { padding: 2px 4px; font-size: 11px; max-width: 115px; }
+    button { padding: 3px 6px; font-size: 11px; }
+    .mini-btn { padding: 2px 5px; font-size: 11px; }
+    #vol-slider { width: 45px !important; }
+    .main-grid { gap: 6px; }
+    .panel-header { top: 4px; left: 4px; right: 4px; }
+    .panel-title { font-size: 10px; padding: 3px 6px; gap: 3px; }
     .hint-mouse { display: none; }
+    .zoom-btns button { padding: 2px 6px; font-size: 11px; }
+    .legend-box { font-size: 9px; padding: 2px 6px; gap: 5px; bottom: 4px; left: 4px; right: 4px; }
   }
 
   @media (max-width: 768px) and (orientation: portrait) {
-    .main-grid { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; gap: 6px; }
+    .main-grid { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; }
   }
 </style>
 </head>
@@ -55,16 +60,16 @@ def obtener_html_simulador():
     </select>
     <button class="mini-btn" onclick="ajustarEscala(-0.3)">-</button>
     <select id="sel-ritmo" onchange="cambiarModoSelect()">
-      <option value="0.3">🐢 Lenta</option>
-      <option value="1.0" selected>⏩ Normal</option>
-      <option value="3.0">🚀 Rápida</option>
+      <option value="0.3">🐢 Cámara Lenta (Detalle)</option>
+      <option value="1.0" selected>⏩ Velocidad Normal</option>
+      <option value="3.0">🚀 Cámara Rápida</option>
     </select>
-    <span id="lbl-esc" style="font-size:11px;color:#94a3b8;min-width:30px;">x1.0</span>
+    <span id="lbl-esc" style="font-size:11px;color:#94a3b8;min-width:28px;">x1.0</span>
     <button class="mini-btn" onclick="ajustarEscala(0.3)">+</button>
   </div>
   <div class="controls">
-    <button id="btn-audio" onclick="toggleAudio()">🔊 ON</button>
-    <input type="range" id="vol-slider" min="0" max="1" step="0.05" value="0.6" oninput="cambiarVolumen()" style="width:55px;accent-color:#38bdf8;cursor:pointer;" title="Volumen">
+    <button id="btn-audio" onclick="toggleAudio()">🔊 Sonido: ON</button>
+    <input type="range" id="vol-slider" min="0" max="1" step="0.05" value="0.6" oninput="cambiarVolumen()" style="width:60px;accent-color:#38bdf8;cursor:pointer;" title="Volumen">
     <button onclick="setPlay(true)">▶️ Iniciar</button>
     <button onclick="setPlay(false)">⏸️ Pausa</button>
     <button onclick="stepForward()">⏭️ +1</button>
@@ -74,20 +79,20 @@ def obtener_html_simulador():
 <div class="main-grid">
   <div class="panel">
     <div class="panel-header">
-      <div class="panel-title">🌐 Globo Completo | Radio: <span id="lbl-radio" style="color:#38bdf8;font-weight:bold;">1.00x</span> <span id="lbl-fase" style="color:#fbbf24;font-weight:bold;"></span> <span class="hint-mouse" style="color:#94a3b8;font-size:11px;">(🖱️ Recuadro seleccionable)</span></div>
+      <div class="panel-title">🌐 Globo | Radio: <span id="lbl-radio" style="color:#38bdf8;font-weight:bold;">1.00x</span> <span id="lbl-fase" style="color:#fbbf24;font-weight:bold;"></span> <span class="hint-mouse" style="color:#94a3b8;font-size:11px;">(🖱️ Recuadro seleccionable)</span></div>
       <div class="zoom-btns">
         <button onclick="zoomMacro *= 1.2">🔍+</button>
         <button onclick="zoomMacro /= 1.2">🔍-</button>
       </div>
     </div>
     <canvas id="canvasMacro"></canvas>
-    <div class="legend-bar"><span>🟡 Mantequilla</span><span>🩶 Tinta (M. Oscura)</span><span>🟢 Gas (E. Oscura)</span><span>⚪ Neutrinos</span><span>⚫ Esfera sin luz</span></div>
+    <div class="legend-box"><span>🟡 Mantequilla</span><span>🩶 Tinta (M. Oscura)</span><span>🟢 Gas (E. Oscura)</span><span>⚪ Neutrinos</span><span>⚫ Esfera sin luz</span></div>
   </div>
   <div class="panel">
     <div class="panel-header">
       <div class="panel-title">
-        🔬 Lupa Local | <span id="estado-agua" style="color:#34d399;font-weight:bold;">▶️ Agua Relajada</span>
-        <span style="pointer-events:auto;margin-left:4px;display:inline-flex;gap:3px;align-items:center;">
+        🔬 Lupa | <span id="estado-agua" style="color:#34d399;font-weight:bold;">▶️ Agua Relajada</span>
+        <span style="pointer-events:auto;margin-left:4px;display:inline-flex;align-items:center;gap:2px;">
           <button class="mini-btn" onclick="cambiarRitmoLocal(-0.25)">-</button>
           <span id="lbl-ritmo-local" style="font-size:11px;color:#94a3b8;padding:0 2px;">x1.0</span>
           <button class="mini-btn" onclick="cambiarRitmoLocal(0.25)">+</button>
@@ -166,7 +171,8 @@ function resize() {
 }
 window.addEventListener('resize', resize);
 window.addEventListener('orientationchange', () => setTimeout(resize, 150));
-setTimeout(resize, 50);
+resize();
+setTimeout(resize, 200);
 
 function cambiarCiclo() { direccion = +document.getElementById('sel-ciclo').value; }
 function cambiarModoSelect() { escala = +document.getElementById('sel-ritmo').value; document.getElementById('lbl-esc').innerText = 'x' + escala.toFixed(1); }
@@ -202,7 +208,7 @@ function cambiarVolumen() {
 
 function toggleAudio() {
   audioActivo = !audioActivo;
-  document.getElementById('btn-audio').innerText = audioActivo ? '🔊 ON' : '🔇 OFF';
+  document.getElementById('btn-audio').innerText = audioActivo ? '🔊 Sonido: ON' : '🔇 Silencio';
   if (!audioActivo && gainFondo && audioCtx) {
     gainFondo.gain.setTargetAtTime(0.0001, audioCtx.currentTime, 0.08);
   } else if (audioActivo && playing && gainFondo && audioCtx) {
@@ -273,38 +279,43 @@ function formatClock(sec) {
   return `${h}:${m}:${ss}`;
 }
 
-function getMacroCoords(clientX, clientY) {
-  const rect = cMacro.getBoundingClientRect();
-  const s = (Math.min(cMacro.width, cMacro.height) * 0.46 * zoomMacro) / Math.max(0.65, radioActual);
-  return {
-    x: (clientX - rect.left - cMacro.width / 2) / s,
-    y: (clientY - rect.top - cMacro.height / 2) / s
-  };
+function getMacroScale() {
+  return (Math.min(cMacro.width, cMacro.height) * 0.46 * zoomMacro) / Math.max(0.65, radioActual);
 }
 
 cMacro.addEventListener('mousedown', e => {
-  startDrag = getMacroCoords(e.clientX, e.clientY);
+  const rect = cMacro.getBoundingClientRect();
+  const s = getMacroScale();
+  startDrag.x = (e.clientX - rect.left - cMacro.width/2) / s;
+  startDrag.y = (e.clientY - rect.top - cMacro.height/2) / s;
   dragging = true;
 });
 cMacro.addEventListener('mousemove', e => {
   if (!dragging) return;
-  let pos = getMacroCoords(e.clientX, e.clientY);
-  if (Math.abs(pos.x - startDrag.x) > 0.03 && Math.abs(pos.y - startDrag.y) > 0.03)
-    selBox = { x0: Math.min(startDrag.x, pos.x), y0: Math.min(startDrag.y, pos.y), x1: Math.max(startDrag.x, pos.x), y1: Math.max(startDrag.y, pos.y) };
+  const rect = cMacro.getBoundingClientRect();
+  const s = getMacroScale();
+  let cx = (e.clientX - rect.left - cMacro.width/2) / s, cy = (e.clientY - rect.top - cMacro.height/2) / s;
+  if (Math.abs(cx - startDrag.x) > 0.03 && Math.abs(cy - startDrag.y) > 0.03)
+    selBox = { x0: Math.min(startDrag.x, cx), y0: Math.min(startDrag.y, cy), x1: Math.max(startDrag.x, cx), y1: Math.max(startDrag.y, cy) };
 });
 window.addEventListener('mouseup', () => dragging = false);
 
 cMacro.addEventListener('touchstart', e => {
   if (e.touches.length !== 1) return;
-  startDrag = getMacroCoords(e.touches[0].clientX, e.touches[0].clientY);
+  const rect = cMacro.getBoundingClientRect();
+  const s = getMacroScale();
+  startDrag.x = (e.touches[0].clientX - rect.left - cMacro.width/2) / s;
+  startDrag.y = (e.touches[0].clientY - rect.top - cMacro.height/2) / s;
   dragging = true;
 }, { passive: true });
 cMacro.addEventListener('touchmove', e => {
   if (!dragging || e.touches.length !== 1) return;
   e.preventDefault();
-  let pos = getMacroCoords(e.touches[0].clientX, e.touches[0].clientY);
-  if (Math.abs(pos.x - startDrag.x) > 0.03 && Math.abs(pos.y - startDrag.y) > 0.03)
-    selBox = { x0: Math.min(startDrag.x, pos.x), y0: Math.min(startDrag.y, pos.y), x1: Math.max(startDrag.x, pos.x), y1: Math.max(startDrag.y, pos.y) };
+  const rect = cMacro.getBoundingClientRect();
+  const s = getMacroScale();
+  let cx = (e.touches[0].clientX - rect.left - cMacro.width/2) / s, cy = (e.touches[0].clientY - rect.top - cMacro.height/2) / s;
+  if (Math.abs(cx - startDrag.x) > 0.03 && Math.abs(cy - startDrag.y) > 0.03)
+    selBox = { x0: Math.min(startDrag.x, cx), y0: Math.min(startDrag.y, cy), x1: Math.max(startDrag.x, cx), y1: Math.max(startDrag.y, cy) };
 }, { passive: false });
 window.addEventListener('touchend', () => dragging = false);
 
@@ -479,7 +490,7 @@ function loop(ts) {
   else if (R >= 2.25) elFase.innerText = '⚠️ Gas Agotado — Iniciando Implosión';
   else elFase.innerText = '';
 
-  const baseScaleM = (Math.min(cMacro.width, cMacro.height) * 0.46 * zoomMacro) / Math.max(0.65, R);
+  const baseScaleM = getMacroScale();
   renderUniverse(ctxM, cMacro.width, cMacro.height, baseScaleM, cMacro.width/2, cMacro.height/2, false);
 
   let boxW = Math.max(0.05, selBox.x1 - selBox.x0), boxH = Math.max(0.05, selBox.y1 - selBox.y0);
