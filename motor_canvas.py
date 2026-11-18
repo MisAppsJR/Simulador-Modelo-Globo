@@ -3,25 +3,36 @@ def obtener_html_simulador():
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; color: #e2e8f0; }
-  body { background-color: #060911; overflow: hidden; padding: 8px 14px; }
-  .top-bar { display: flex; justify-content: space-between; align-items: center; background: #111827; padding: 8px 16px; border-radius: 8px; border: 1px solid #1f2937; margin-bottom: 10px; }
-  .title { font-size: 17px; font-weight: 600; color: #38bdf8; }
-  .clock-box { display: flex; align-items: center; gap: 8px; background: #060911; padding: 5px 12px; border-radius: 6px; border: 1px solid #374151; }
-  .clock { font-family: 'Consolas', monospace; font-size: 21px; font-weight: bold; color: #34d399; letter-spacing: 1px; margin-right: 4px; }
-  select { background: #1f2937; color: #f8fafc; border: 1px solid #4b5563; padding: 4px 8px; border-radius: 6px; font-size: 13px; cursor: pointer; outline: none; }
-  .controls { display: flex; gap: 7px; }
-  button { background: #1f2937; border: 1px solid #4b5563; color: #f8fafc; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; }
+  html, body { height: 100dvh; margin: 0; padding: 0; background-color: #060911; overflow: hidden; }
+  body { display: flex; flex-direction: column; padding: 6px 10px; gap: 8px; }
+  .top-bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px; background: #111827; padding: 6px 12px; border-radius: 8px; border: 1px solid #1f2937; flex-shrink: 0; }
+  .title { font-size: 16px; font-weight: 600; color: #38bdf8; }
+  .clock-box { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; background: #060911; padding: 4px 10px; border-radius: 6px; border: 1px solid #374151; }
+  .clock { font-family: 'Consolas', monospace; font-size: 19px; font-weight: bold; color: #34d399; letter-spacing: 1px; margin-right: 4px; }
+  select { background: #1f2937; color: #f8fafc; border: 1px solid #4b5563; padding: 4px 6px; border-radius: 6px; font-size: 12px; cursor: pointer; outline: none; }
+  .controls { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  button { background: #1f2937; border: 1px solid #4b5563; color: #f8fafc; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 500; }
   button:hover { background: #38bdf8; color: #060911; font-weight: 600; }
-  .mini-btn { padding: 3px 8px; font-size: 13px; font-weight: bold; }
-  .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; height: 745px; }
-  .panel { position: relative; background: #03050a; border: 1px solid #1f2937; border-radius: 10px; overflow: hidden; }
-  .panel-header { position: absolute; top: 10px; left: 12px; right: 12px; display: flex; justify-content: space-between; align-items: center; pointer-events: none; z-index: 10; }
-  .panel-title { font-size: 13px; background: rgba(15, 23, 42, 0.88); padding: 5px 10px; border-radius: 6px; border: 1px solid #334155; display: flex; align-items: center; gap: 6px; }
-  .zoom-btns { pointer-events: auto; display: flex; gap: 6px; }
-  .zoom-btns button { padding: 4px 10px; font-size: 14px; font-weight: bold; background: rgba(15, 23, 42, 0.92); }
-  canvas { width: 100%; height: 100%; display: block; cursor: crosshair; }
+  .mini-btn { padding: 3px 8px; font-size: 12px; font-weight: bold; }
+  .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex: 1; min-height: 0; }
+  .panel { position: relative; background: #03050a; border: 1px solid #1f2937; border-radius: 10px; overflow: hidden; min-height: 0; }
+  .panel-header { position: absolute; top: 8px; left: 10px; right: 10px; display: flex; justify-content: space-between; align-items: center; pointer-events: none; z-index: 10; gap: 6px; }
+  .panel-title { font-size: 12px; background: rgba(15, 23, 42, 0.88); padding: 4px 8px; border-radius: 6px; border: 1px solid #334155; display: flex; flex-wrap: wrap; align-items: center; gap: 5px; }
+  .zoom-btns { pointer-events: auto; display: flex; gap: 4px; flex-shrink: 0; }
+  .zoom-btns button { padding: 4px 8px; font-size: 13px; font-weight: bold; background: rgba(15, 23, 42, 0.92); }
+  canvas { width: 100%; height: 100%; display: block; cursor: crosshair; touch-action: none; }
+  @media (max-width: 768px) and (orientation: portrait) {
+    .main-grid { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; }
+  }
+  @media (max-width: 900px) {
+    .title { font-size: 14px; }
+    .clock { font-size: 16px; }
+    button, select { padding: 4px 7px; font-size: 11px; }
+    .panel-title { font-size: 11px; }
+  }
 </style>
 </head>
 <body>
@@ -44,7 +55,7 @@ def obtener_html_simulador():
   </div>
   <div class="controls">
     <button id="btn-audio" onclick="toggleAudio()">🔊 Sonido: ON</button>
-    <input type="range" id="vol-slider" min="0" max="1" step="0.05" value="0.6" oninput="cambiarVolumen()" style="width:65px;accent-color:#38bdf8;cursor:pointer;" title="Volumen">
+    <input type="range" id="vol-slider" min="0" max="1" step="0.05" value="0.6" oninput="cambiarVolumen()" style="width:60px;accent-color:#38bdf8;cursor:pointer;" title="Volumen">
     <button onclick="setPlay(true)">▶️ Iniciar</button>
     <button onclick="setPlay(false)">⏸️ Pausa</button>
     <button onclick="stepForward()">⏭️ +1</button>
@@ -54,22 +65,22 @@ def obtener_html_simulador():
 <div class="main-grid">
   <div class="panel">
     <div class="panel-header">
-      <div class="panel-title">🌐 Globo Completo | Radio: <span id="lbl-radio" style="color:#38bdf8;font-weight:bold;">1.00x</span> <span id="lbl-fase" style="color:#fbbf24;font-weight:bold;"></span> <span style="color:#94a3b8;font-size:12px;">(🖱️ Recuadro seleccionable con ratón)</span></div>
+      <div class="panel-title">🌐 Globo Completo | Radio: <span id="lbl-radio" style="color:#38bdf8;font-weight:bold;">1.00x</span> <span id="lbl-fase" style="color:#fbbf24;font-weight:bold;"></span> <span style="color:#94a3b8;font-size:11px;">(🖱️/👆 Recuadro seleccionable)</span></div>
       <div class="zoom-btns">
         <button onclick="zoomMacro *= 1.2">🔍+</button>
         <button onclick="zoomMacro /= 1.2">🔍-</button>
       </div>
     </div>
     <canvas id="canvasMacro"></canvas>
-    <div style="position:absolute;bottom:8px;left:10px;background:rgba(15,23,42,0.82);border:1px solid #334155;border-radius:6px;padding:4px 10px;font-size:11px;display:flex;gap:10px;pointer-events:none;"><span>🟡 Mantequilla</span><span>🩶 Tinta (M. Oscura)</span><span>🟢 Gas (E. Oscura)</span><span>⚪ Neutrinos</span><span>⚫ Esfera sin luz</span></div>
+    <div style="position:absolute;bottom:6px;left:8px;right:8px;background:rgba(15,23,42,0.82);border:1px solid #334155;border-radius:6px;padding:3px 8px;font-size:10px;display:flex;flex-wrap:wrap;gap:8px;pointer-events:none;width:fit-content;max-width:calc(100% - 16px);"><span>🟡 Mantequilla</span><span>🩶 Tinta (M. Oscura)</span><span>🟢 Gas (E. Oscura)</span><span>⚪ Neutrinos</span><span>⚫ Esfera sin luz</span></div>
   </div>
   <div class="panel">
     <div class="panel-header">
       <div class="panel-title">
         🔬 Lupa Local | <span id="estado-agua" style="color:#34d399;font-weight:bold;">▶️ Agua Relajada</span>
-        <span style="pointer-events:auto;margin-left:6px;display:inline-flex;gap:3px;">
+        <span style="pointer-events:auto;margin-left:4px;display:inline-flex;gap:3px;align-items:center;">
           <button class="mini-btn" onclick="cambiarRitmoLocal(-0.25)">-</button>
-          <span id="lbl-ritmo-local" style="font-size:12px;color:#94a3b8;padding:0 3px;">x1.0</span>
+          <span id="lbl-ritmo-local" style="font-size:11px;color:#94a3b8;padding:0 2px;">x1.0</span>
           <button class="mini-btn" onclick="cambiarRitmoLocal(0.25)">+</button>
         </span>
       </div>
@@ -89,7 +100,6 @@ let playing = false, simTime = 0, radioActual = 1.0, direccion = 1, lastTs = 0, 
 let escala = 1.0, ritmoLocal = 1.0;
 let selBox = { x0: -0.25, y0: -0.25, x1: 0.25, y1: 0.25 }, dragging = false, startDrag = {x:0, y:0};
 
-// Esponja uniforme cubriendo desde el centro (r=0.02) hasta el borde
 const nodos = Array.from({length: 54}, (_, i) => {
   let a = (i * 137.508) * Math.PI / 180, r = 0.02 + 0.90 * Math.sqrt(i / 54);
   let lobulos = Array.from({length: 12}, (_, k) => 0.78 + 0.35 * Math.sin(i * 2.7 + k * 1.9));
@@ -105,7 +115,6 @@ const nodos = Array.from({length: 54}, (_, i) => {
   return { bx: r * Math.cos(a), by: r * Math.sin(a), masa: (i % 5 === 0) ? 2.2 : 1.1, fase: i * 0.7, lobulos, puntosMO, estrellasGal };
 });
 
-// Filamentos con fluctuación de grosor y capacidad de fragmentarse en globos alargados
 const enlaces = [];
 for (let i = 0; i < nodos.length; i++) {
   for (let j = i + 1; j < nodos.length; j++) {
@@ -119,7 +128,6 @@ for (let i = 0; i < nodos.length; i++) {
   }
 }
 
-// Burbujas sueltas (materia expulsada de los nodos flotando en los huecos)
 const burbujasSueltas = Array.from({length: 26}, (_, i) => {
   let a = (i * 2.399) + 1.1, r = 0.18 + 0.68 * Math.sqrt((i + 0.3) / 26);
   let lobulos = Array.from({length: 8}, (_, k) => 0.8 + 0.3 * Math.cos(i * 4.1 + k * 2.2));
@@ -140,10 +148,16 @@ const neutrinos = Array.from({length: 160}, (_, i) => {
 });
 
 function resize() {
-  cMacro.width = cMacro.clientWidth; cMacro.height = cMacro.clientHeight;
-  cZoom.width = cZoom.clientWidth; cZoom.height = cZoom.clientHeight;
+  if (cMacro.clientWidth > 0 && cMacro.clientHeight > 0) {
+    cMacro.width = cMacro.clientWidth; cMacro.height = cMacro.clientHeight;
+  }
+  if (cZoom.clientWidth > 0 && cZoom.clientHeight > 0) {
+    cZoom.width = cZoom.clientWidth; cZoom.height = cZoom.clientHeight;
+  }
 }
-window.addEventListener('resize', resize); resize();
+window.addEventListener('resize', resize);
+window.addEventListener('orientationchange', () => setTimeout(resize, 150));
+resize();
 
 function cambiarCiclo() { direccion = +document.getElementById('sel-ciclo').value; }
 function cambiarModoSelect() { escala = +document.getElementById('sel-ritmo').value; document.getElementById('lbl-esc').innerText = 'x' + escala.toFixed(1); }
@@ -249,22 +263,43 @@ function formatClock(sec) {
   let ss = String(s % 60).padStart(2, '0');
   return `${h}:${m}:${ss}`;
 }
-cMacro.addEventListener('mousedown', e => {
+
+function getMacroCoords(clientX, clientY) {
   const rect = cMacro.getBoundingClientRect();
-  const s = (Math.min(cMacro.width, cMacro.height) * 0.46 * zoomMacro) / Math.max(0.25, radioActual);
-  startDrag.x = (e.clientX - rect.left - cMacro.width/2) / s;
-  startDrag.y = (e.clientY - rect.top - cMacro.height/2) / s;
+  const s = (Math.min(cMacro.width, cMacro.height) * 0.46 * zoomMacro) / Math.max(0.65, radioActual);
+  return {
+    x: (clientX - rect.left - cMacro.width / 2) / s,
+    y: (clientY - rect.top - cMacro.height / 2) / s
+  };
+}
+
+cMacro.addEventListener('mousedown', e => {
+  startDrag = getMacroCoords(e.clientX, e.clientY);
   dragging = true;
 });
 cMacro.addEventListener('mousemove', e => {
   if (!dragging) return;
-  const rect = cMacro.getBoundingClientRect();
-  const s = (Math.min(cMacro.width, cMacro.height) * 0.46 * zoomMacro) / Math.max(0.25, radioActual);
-  let cx = (e.clientX - rect.left - cMacro.width/2) / s, cy = (e.clientY - rect.top - cMacro.height/2) / s;
-  if (Math.abs(cx - startDrag.x) > 0.03 && Math.abs(cy - startDrag.y) > 0.03)
-    selBox = { x0: Math.min(startDrag.x, cx), y0: Math.min(startDrag.y, cy), x1: Math.max(startDrag.x, cx), y1: Math.max(startDrag.y, cy) };
+  let pos = getMacroCoords(e.clientX, e.clientY);
+  if (Math.abs(pos.x - startDrag.x) > 0.03 && Math.abs(pos.y - startDrag.y) > 0.03) {
+    selBox = { x0: Math.min(startDrag.x, pos.x), y0: Math.min(startDrag.y, pos.y), x1: Math.max(startDrag.x, pos.x), y1: Math.max(startDrag.y, pos.y) };
+  }
 });
 window.addEventListener('mouseup', () => dragging = false);
+
+cMacro.addEventListener('touchstart', e => {
+  if (e.touches.length !== 1) return;
+  startDrag = getMacroCoords(e.touches[0].clientX, e.touches[0].clientY);
+  dragging = true;
+}, { passive: true });
+cMacro.addEventListener('touchmove', e => {
+  if (!dragging || e.touches.length !== 1) return;
+  e.preventDefault();
+  let pos = getMacroCoords(e.touches[0].clientX, e.touches[0].clientY);
+  if (Math.abs(pos.x - startDrag.x) > 0.03 && Math.abs(pos.y - startDrag.y) > 0.03) {
+    selBox = { x0: Math.min(startDrag.x, pos.x), y0: Math.min(startDrag.y, pos.y), x1: Math.max(startDrag.x, pos.x), y1: Math.max(startDrag.y, pos.y) };
+  }
+}, { passive: false });
+window.addEventListener('touchend', () => dragging = false);
 
 function dibujarGloboOrganico(ctx, nx, ny, rBase, lobulos, fase, simTime) {
   const pts = [];
@@ -406,19 +441,18 @@ function renderUniverse(ctx, w, h, scalePx, offX, offY, isZoom) {
 }
 
 function loop(ts) {
+  if (cMacro.width !== cMacro.clientWidth || cMacro.height !== cMacro.clientHeight) resize();
   if (!lastTs) lastTs = ts;
   let dt = (ts - lastTs) / 1000;
   lastTs = ts;
   if (playing) {
     simTime += dt * escala;
     radioActual += direccion * 0.018 * dt * escala;
-    // Límite Superior: Gas agotado (2.50x) -> Invierte a Implosión
     if (radioActual >= 2.50) {
       radioActual = 2.50;
       direccion = -1;
       document.getElementById('sel-ciclo').value = "-1";
     }
-    // Límite Inferior: Núcleo diminuto pero no cero (0.04x) -> Rebote Big Bang
     if (radioActual <= 0.04) {
       radioActual = 0.04;
       sonarBigBang();
@@ -438,7 +472,6 @@ function loop(ts) {
   else if (R >= 2.25) elFase.innerText = '⚠️ Gas Agotado — Iniciando Implosión';
   else elFase.innerText = '';
 
-  // Mantener escala mínima de cámara (0.65) para que al implosionar a 0.04x se vea diminuto frente al aro 1.00x
   const baseScaleM = (Math.min(cMacro.width, cMacro.height) * 0.46 * zoomMacro) / Math.max(0.65, R);
   renderUniverse(ctxM, cMacro.width, cMacro.height, baseScaleM, cMacro.width/2, cMacro.height/2, false);
 
